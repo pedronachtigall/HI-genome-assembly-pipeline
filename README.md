@@ -1,2 +1,3 @@
 # HI-genome-assembly-pipeline
-Pipeline and tutorial to perform genome assembly using HiFi and HiC data
+Bioinformatics pipeline and tutorial for performing genome assembly using HiFi and HiC data.
+
