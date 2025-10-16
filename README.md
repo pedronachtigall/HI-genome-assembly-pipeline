@@ -105,7 +105,7 @@ yahs Binsu.hic.p_ctg.fasta aligned.bam
 ```
 
 ## Review of scaffolded genome
-We used [PretextMap](https://github.com/sanger-tol/PretextMap) and the [PretextView](https://github.com/sanger-tol/PretextView) to manually review the scaffolded genome following the [Rapid curation guide](https://gitlab.com/wtsi-grit/rapid-curation/-/tree/main). In addition, we used the read coveerage of hifi reads and telomeric repeats to help in the assembly review.
+We used [PretextMap](https://github.com/sanger-tol/PretextMap) and the [PretextView](https://github.com/sanger-tol/PretextView) to manually review the scaffolded genome following the [Rapid curation guide](https://gitlab.com/wtsi-grit/rapid-curation/-/tree/main). In addition, we used the read coverage of hifi reads and telomeric repeats to help in the assembly review.
 
 <!---
 
