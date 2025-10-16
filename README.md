@@ -80,7 +80,7 @@ MITGARD-LR.py -s Binsu_mitogenome -m pacbio_hifi -r ../Binsu.hifi.fastq -R NC_03
 ## Draft genome assembly
 We used [hifiasm](https://github.com/chhylp123/hifiasm) to perform the draft genome assembly using HiFi and HiC reads to acquire the primary and both resolved haplotypes.
 ```
-hifiasm -o Cadam_DRR0105 -t32 --h1 Binsu.hic.R1.fastq.gz --h2 Binsu.hic.R2.fastq.gz Binsu.hifi.fastq
+hifiasm -o Binsu -t32 --h1 Binsu.hic.R1.fastq.gz --h2 Binsu.hic.R2.fastq.gz Binsu.hifi.fastq
 awk '/^S/{print ">"$2;print $3}' Binsu.hic.p_ctg.gfa > Binsu.hic.p_ctg.fasta
 awk '/^S/{print ">"$2;print $3}' Binsu.hic.hap1.p_ctg.gfa > Binsu.hic.hap1.p_ctg.fasta
 awk '/^S/{print ">"$2;print $3}' Binsu.hic.hap2.p_ctg.gfa > Binsu.hic.hap2.p_ctg.fasta
@@ -105,12 +105,31 @@ yahs Binsu.hic.p_ctg.fasta aligned.bam
 ```
 
 ## Review of scaffolded genome
-We used [PretextMap](https://github.com/sanger-tol/PretextMap) and the [PretextView](https://github.com/sanger-tol/PretextView) to manually review the scaffolded genome following the [Rapid curation guide](https://gitlab.com/wtsi-grit/rapid-curation/-/tree/main).
+We used [PretextMap](https://github.com/sanger-tol/PretextMap) and the [PretextView](https://github.com/sanger-tol/PretextView) to manually review the scaffolded genome following the [Rapid curation guide](https://gitlab.com/wtsi-grit/rapid-curation/-/tree/main). In addition, we used the read coveerage of hifi reads and telomeric repeats to help in the assembly review.
 
 <!---
 
 ```
-## Adding workflow here!
+#map hic to generate the contact map
+chromap -i -r yahs.out_scaffolds_final.fa -o yahs.out_scaffolds_final.fa.index
+samtools faidx yahs.out_scaffolds_final.fa
+chromap --preset hic -r yahs.out_scaffolds_final.fa -x yahs.out_scaffolds_final.fa.index --remove-pcr-duplicates -1 hic_R1.fastq -2 hic_R2.fastq --SAM -o aligned.sam -t 32
+samtools view -@ 32 -bh aligned.sam | samtools sort -@ 32 -n > aligned.bam
+rm aligned.sam
+
+samtools view -h aligned.bam | PretextMap -o hic_map.pretext --sortby length --sortorder descend --mapq 0
+
+#track - genomeCoverage - hifi
+minimap2 -ax map-hifi -t 16 yahs.out_scaffolds_final.fa ../Binsu.hifi.fastq | samtools sort -@16 -O BAM -o hifi_unfilt.bam
+samtools view -b -F 256 hifi_unfilt.bam > hifi.bam
+rm hifi_unfilt.bam
+samtools index hifi.bam
+bamCoverage -b hifi.bam -o hifi.bw
+bigWigToBedGraph hifi.bw  /dev/stdout | PretextGraph -i hic_map.pretext -n "hifi_cov" -o hifi_cov.pretext
+
+#track - telomeric repeats
+tidk search -s TTAGG --dir tidk_out --output TTAGG --fasta yahs.out_scaffolds_final.fa --extension bedgraph
+PretextGraph -i hic_map.pretext -n "telomer" -o telomer.pretext < TTAGG_telomeric_repeat_windows.bedgraph
 ```
 
 ## References
