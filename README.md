@@ -107,13 +107,13 @@ yahs Binsu.hic.p_ctg.fasta aligned.bam
 ## Review of scaffolded genome
 We used [PretextMap](https://github.com/sanger-tol/PretextMap) and the [PretextView](https://github.com/sanger-tol/PretextView) to manually review the scaffolded genome following the [Rapid curation guide](https://gitlab.com/wtsi-grit/rapid-curation/-/tree/main). In addition, we used the read coverage of hifi reads and telomeric repeats to help in the assembly review.
 
-<!---
+We checked for telomeric sequences within scaffolds using [tidk](https://github.com/tolkit/telomeric-identifier) and the conserved telomeric motif of vertebrates (TTAGGG). We used [Minimap2](https://github.com/lh3/minimap2) to check for hifi read coverage.
 
 ```
 #map hic to generate the contact map
 chromap -i -r yahs.out_scaffolds_final.fa -o yahs.out_scaffolds_final.fa.index
 samtools faidx yahs.out_scaffolds_final.fa
-chromap --preset hic -r yahs.out_scaffolds_final.fa -x yahs.out_scaffolds_final.fa.index --remove-pcr-duplicates -1 hic_R1.fastq -2 hic_R2.fastq --SAM -o aligned.sam -t 32
+chromap --preset hic -r yahs.out_scaffolds_final.fa -x yahs.out_scaffolds_final.fa.index --remove-pcr-duplicates -1 hic_R1.fastq.gz -2 hic_R2.fastq.gz --SAM -o aligned.sam -t 32
 samtools view -@ 32 -bh aligned.sam | samtools sort -@ 32 -n > aligned.bam
 rm aligned.sam
 
@@ -131,6 +131,21 @@ bigWigToBedGraph hifi.bw  /dev/stdout | PretextGraph -i hic_map.pretext -n "hifi
 tidk search -s TTAGG --dir tidk_out --output TTAGG --fasta yahs.out_scaffolds_final.fa --extension bedgraph
 PretextGraph -i hic_map.pretext -n "telomer" -o telomer.pretext < TTAGG_telomeric_repeat_windows.bedgraph
 ```
+
+In addition, we mapped the assembled mitochondrial genome to check for mitochondrial contigs/scaffolds that can be removed after review.
+```
+mkdir mitocheck && cd mitocheck
+makeblastdb -in ../yahs.out_scaffolds_final.fa -out blastDB/genome -dbtype nucl
+blastn -query ../Binsularis_mitogenome.fasta -db blastDB/genome -out blast.out -evalue 1E-6 -qcov_hsp_perc 40 -num_threads 20 -outfmt 6
+```
+ - We manually check the ```blast.out``` file.
+
+After the review, we generated the final genome assembly. Which is ready for downstream analysis.
+```
+```
+
+<!---
+
 
 ## References
 If you use this tutorial or any of the resources/scripts, please consider citing: [Nachtigall et al., in prep](https://doi.org/10.1093/molbev/msaf058).
