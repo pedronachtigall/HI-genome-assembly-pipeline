@@ -146,6 +146,33 @@ After the review, we generated the final genome assembly. Which is ready for dow
 
 <!---
 
+## Assign chromosomes
+To identify chromosomes, we used a set of chromosome-specific markers (NCBI accessions SAMN00177542 and SAMN00152474) of snakes<sup>[Matsubara
+et al., 2006](https://doi.org/10.1073/pnas.0605274103)</sup> and the chromosome-level genome available of two other rattlesnake species (i.e., *C. viridis*<sup>[Schield et al., 2019](http://www.genome.org/cgi/doi/10.1101/gr.240952.118)</sup> and *C. adamanteus*<sup>[Nachtigall et al., 2025](https://doi.org/10.1093/molbev/msaf058)</sup>. We used [BLAST](https://blast.ncbi.nlm.nih.gov/doc/blast-help/downloadblastdata.html) and [minimap2](https://github.com/lh3/minimap2) to perform this analysis and manually checked the outputs.
+```
+makeblastdb -in yahs.out_scaffolds_final.FINAL.fasta -out blastDB/ALL -dbtype nucl
+blastn -query /path/to/markers_sequence.fasta -out blast_markers.out -db blastDB/ALL -num_threads 20 -max_target_seqs 1 -outfmt 6
+minimap2 -ax splice yahs.out_scaffolds_final.FINAL.fasta /path/to/markers_sequence.fasta > mm2_markers.sam
+minimap2 -k19 -w19 -t32 /path/to/Cviridis_chr_only.fasta yahs.out_scaffolds_final.FINAL.fasta > mm2_cvir.paf
+minimap2 -k19 -w19 -t32 /path/to/Cadamanteus_chr_only.fasta yahs.out_scaffolds_final.FINAL.fasta > mm2_cadam.paf
+```
+
+After characterizing chromosomes, we renamed the scaffolds and split the file into chromosomes and unplaced for downstream analysis.
+
+## Checking genome quality
+### BUSCO
+We used [BUSCO](https://busco.ezlab.org/) with the Tetrapoda database to assess the completeness.
+```
+busco -i Binsularis_primary_chromosomes.fasta -m genome -l tetrapoda_odb10 -c 20 -o busco
+```
+
+### Inspector
+We used [Inspector](https://github.com/Maggi-Chen/Inspector) to assess genomic statistics and assembly quality by calculating the QV score.
+```
+inspector.py -c Binsularis_primary_chromosomes.fasta -r Binsu.hifi.fastq -o inspector_out/ --datatype hifi --thread 10
+```
+
+
 
 ## References
 If you use this tutorial or any of the resources/scripts, please consider citing: [Nachtigall et al., in prep](https://doi.org/10.1093/molbev/msaf058).
