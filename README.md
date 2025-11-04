@@ -36,7 +36,7 @@ Ensure that all dependencies are installed and working properly.
 ## Model species
 We will use the Golden lancehead (*Bothrops insularis*) as a model for this tutorial.
 
-The genomic data is linked to the manuscript ["Unveiling the toxin repertoire of the golden lancehead: insights into the genomic evolution of a critically endangered species"](https://doi.org/10.1093/molbev/msaf058) published in *in prep* and it is available in NCBI under the under the project number [PRJNA679826](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA679826/).
+The genomic data is linked to the manuscript ["The golden lancehead genome reveals distinct selective processes acting on venom genes of an island endemic snake"](https://doi.org/10.1093/molbev/msaf058) published in *in prep* and it is available in NCBI under the under the project number [PRJNA679826](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA679826/).
 
 The raw data is listed below:
 | Sample ID | Data type | NCBI accession |
