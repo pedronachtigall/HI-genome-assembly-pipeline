@@ -1,6 +1,6 @@
-<!---
-![genome_assembly_pipeline](/genome_assembly_workflow.png)
---->
+<p align="center">
+<img src="/genome-assembly-pipeline_github.png" width="300">
+</p>
 
 # Genome-assembly-pipeline
 Bioinformatics pipeline and tutorial for performing genome assembly using HiFi and HiC data.
