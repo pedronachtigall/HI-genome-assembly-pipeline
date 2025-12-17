@@ -36,7 +36,7 @@ Ensure that all dependencies are installed and working properly.
 ## Model species
 We will use the Golden lancehead (*Bothrops insularis*) as a model for this tutorial.
 
-The genomic data is linked to the manuscript ["The golden lancehead genome reveals distinct selective processes acting on venom genes of an island endemic snake"](https://doi.org/10.1093/molbev/msaf058) published in *in prep* and it is available in NCBI under the under the project number [PRJNA679826](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA679826/).
+The genomic data is linked to the manuscript ["The golden lancehead genome reveals distinct selective processes acting on venom genes of an island endemic snake"](https://doi.org/10.1093/gbe/evaf243) published in *Genome Biology and Evolution* and it is available in NCBI under the under the project number [PRJNA679826](https://www.ncbi.nlm.nih.gov/bioproject/PRJNA679826/).
 
 The raw data is listed below:
 | Sample ID | Data type | NCBI accession |
@@ -172,6 +172,6 @@ inspector.py -c Binsularis_primary_chromosomes.fasta -r Binsu.hifi.fastq -o insp
 
 
 ## References
-If you use this tutorial or any of the resources/scripts, please consider citing: [Nachtigall et al., in prep](https://doi.org/10.1093/molbev/msaf058).
+If you use this tutorial or any of the resources/scripts, please consider citing: [Nachtigall et al., 2025](https://doi.org/10.1093/gbe/evaf243).
 
 Please, cite the original manuscript of each tool used in this tutorial.
