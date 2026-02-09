@@ -54,8 +54,8 @@ cutadapt -j 20 -n 3 -O 35 --revcomp --discard-trimmed --anywhere="ATCTCTCTCAACAA
 cat SRR32358152_HiFi_cutadapt.fastq SRR32358153_HiFi_cutadapt.fastq > Binsu.hifi.trimmed.fastq
 
 #trim hic reads
-trim_galore --paired --phred33 --length 75 -q 25 --stringency 1 -e 0.1 -o SRR32358142_hic_tg SRR32358142_R1.fastq.gz SRR32358142_R2.fastq.gz
-trim_galore --paired --phred33 --length 75 -q 25 --stringency 1 -e 0.1 -o SRR32358143_hic_tg SRR32358143_R1.fastq.gz SRR32358143_R2.fastq.gz
+trim_galore --paired --phred33 --length 75 -q 25 --stringency 1 -e 0.1 --clip_R1 5 --clip_R2 5 -o SRR32358142_hic_tg SRR32358142_R1.fastq.gz SRR32358142_R2.fastq.gz
+trim_galore --paired --phred33 --length 75 -q 25 --stringency 1 -e 0.1 --clip_R1 5 --clip_R2 5 -o SRR32358143_hic_tg SRR32358143_R1.fastq.gz SRR32358143_R2.fastq.gz
 cat SRR32358142_hic_tg/SRR32358142_R1_val_1.fq.gz SRR32358143_hic_tg/SRR32358143_R1_val_1.fq.gz > Binsu.hic.R1.fastq.gz
 cat SRR32358142_hic_tg/SRR32358142_R2_val_2.fq.gz SRR32358143_hic_tg/SRR32358143_R2_val_2.fq.gz > Binsu.hic.R2.fastq.gz
 ```
