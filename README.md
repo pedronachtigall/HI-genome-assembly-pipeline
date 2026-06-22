@@ -123,11 +123,11 @@ samtools view -b -F 256 hifi_unfilt.bam > hifi.bam
 rm hifi_unfilt.bam
 samtools index hifi.bam
 bamCoverage -b hifi.bam -o hifi.bw
-bigWigToBedGraph hifi.bw  /dev/stdout | PretextGraph -i hic_map.pretext -n "hifi_cov" -o hifi_cov.pretext
+bigWigToBedGraph hifi.bw  /dev/stdout | PretextGraph -i hic_map.pretext -n "hifi_cov" -o hic_map.pretext
 
 #track - telomeric repeats
 tidk search -s TTAGG --dir tidk_out --output TTAGG --fasta yahs.out_scaffolds_final.fa --extension bedgraph
-PretextGraph -i hic_map.pretext -n "telomer" -o telomer.pretext < TTAGG_telomeric_repeat_windows.bedgraph
+PretextGraph -i hic_map.pretext -n "telomer" -o hic_map.pretext < TTAGG_telomeric_repeat_windows.bedgraph
 ```
 
 In addition, we mapped the assembled mitochondrial genome to check for mitochondrial contigs/scaffolds that can be removed after review.
