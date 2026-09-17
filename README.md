@@ -60,6 +60,14 @@ cat SRR32358142_hic_tg/SRR32358142_R1_val_1.fq.gz SRR32358143_hic_tg/SRR32358143
 cat SRR32358142_hic_tg/SRR32358142_R2_val_2.fq.gz SRR32358143_hic_tg/SRR32358143_R2_val_2.fq.gz > Binsu.hic.R2.fastq.gz
 ```
 
+Alternatively, [fastp](https://github.com/opengene/fastp) can be used to trim HiC data:
+```
+fastp --compression 4 -l 75 -q 25 --trim_front1 5 --trim_front2 5 -i SRR32358142_R1.fastq.gz -I SRR32358142_R2.fastq.gz -o SRR32358142_R1.trimmed.fastq.gz -O SRR32358142_R2.trimmed.fastq.gz
+fastp --compression 4 -l 75 -q 25 --trim_front1 5 --trim_front2 5 -i SRR32358143_R1.fastq.gz -I SRR32358143_R2.fastq.gz -o SRR32358143_R1.trimmed.fastq.gz -O SRR32358142_R3.trimmed.fastq.gz
+cat SRR32358142_R1.trimmed.fastq.gz SRR32358143_R1.trimmed.fastq.gz > Binsu.hic.R1.fastq.gz
+cat SRR32358142_R2.trimmed.fastq.gz SRR32358143_R2.trimmed.fastq.gz > Binsu.hic.R2.fastq.gz
+```
+
 ## Remove of contaminants
 We checked and removed any bacterial and/or human reads (if needed) in the hifi data using [kraken2](https://github.com/DerrickWood/kraken2). TaxonomyID of Sauria 32561 was used to retrieve reads not matching to bacteria or human. We used a custom kraken2 database comprising the standard libraries and other squamata genomes. It is important to design a custom and reliable kraken2 database to ensure you have high quality reads for further steps. You can refer to the [kraken2 manual](https://github.com/DerrickWood/kraken2/wiki/Manual) to learn how to design a custom database.
 ```
